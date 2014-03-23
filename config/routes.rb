@@ -1,5 +1,8 @@
 Blog::Application.routes.draw do
     
+  resources :categories
+
+
     resources :posts do
     resources :comments
   end
@@ -14,6 +17,14 @@ Blog::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
+
+  #日･月･年別アーカイブ一覧
+  match 'day' => 'posts#day'
+  match 'day_list/:date' => 'posts#day_list'
+
+  #カテゴリの追加 
+  match 'category_list' => 'posts#category_list'
+  match 'cat_list/:cat' => 'posts#cat_list'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

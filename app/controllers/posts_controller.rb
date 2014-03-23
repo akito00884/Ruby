@@ -3,8 +3,52 @@
 class PostsController < ApplicationController
     
     def index
+
+       # @posts = Post.all(:order => "created_at DESC")
+
+       #検索機能をつける
+       @search_form = SearchForm.new (params[:search_form])
+
        @posts = Post.all(:order => "created_at DESC")
+       @posts = Post.scoped(:order => "created_at ASC").page(params[:page]).per(5)
+
+       if @search_form.q.present?
+          @posts = @posts.content_or_title_matches @search_form.q
+       end
+
+       # @posts = Post.scoped(:order => "created_at DESC").page(params[:page]).per(5)
+
     end
+
+    #日･月･年別アーカイブ一覧
+    def day
+    @posts = Post.all(:order => "created_at DESC")
+    @post_days = @posts.group_by { |t| t.created_at.beginning_of_day }
+    end
+
+    #日･月･年別アーカイブ一覧
+    def day_list
+    @date = params[:date]
+    y = @date[0,4]
+    m = @date[4,2]
+    d = @date[6,2]
+    i = y + '-' + m + '-' + d
+
+    @posts = Post.where(["created_at between ? and ?", "#{i} 00:00:00", "#{i} 24:00:00"]).order("created_at DESC")
+    end
+　　　
+　　 # カテゴリ追加：カテゴリ一覧のコントローラーの設定を行います。 
+    def category_list
+    @cateories = Category.all
+    @posts = Post.all(:order => "category_id DESC")
+    @post_categories = Post.find(:all).group_by(&:category_id)
+  　end
+
+  　def cat_list
+    cat = params[:cat]
+    @posts = Post.find(:all, :conditions => { :category_id => cat })
+    @cat = Category.find(cat)
+  　end
 
     def show
     	@post = Post.find(params[:id])
