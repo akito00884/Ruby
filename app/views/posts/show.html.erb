@@ -1,5 +1,18 @@
 <h2><%= @post.title %></h2>
 
+<% if @post.category_id.nil? %>
+<h2>カテゴリ</h2>
+
+  <p>カテゴリが登録されていません</p>
+
+<% else %>
+
+  <h2>カテゴリ：<%= @post.category_id %></h2>
+  <p><%= @cat.name %></p>
+
+<% end %>
+
+<h2>Content</h2>
 <p><%= @post.content %></p>
 
 <h2>Comments</h2>
@@ -18,8 +31,11 @@
 		<% end %>
 	</ul>
 
+
 <h2>Add a comment</h2>
 <%= form_for([@post, @comment]) do |f| %>
+
+
 
 <% if @comment.errors.any? %>
 <ul>

@@ -17,7 +17,7 @@ class Post < ActiveRecord::Base
     where 'content like :q or title like :q', :q => "%#{q}%"  
   }
 
-  #　カテゴリーの追加：テーブルを関連付けます   
+  #　カテゴリーの追加：テーブルを関連付けます
   attr_accessible :content, :title, :category_id
   has_many :categories
 

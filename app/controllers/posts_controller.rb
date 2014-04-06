@@ -36,23 +36,31 @@ class PostsController < ApplicationController
 
     @posts = Post.where(["created_at between ? and ?", "#{i} 00:00:00", "#{i} 24:00:00"]).order("created_at DESC")
     end
-　　　
-　　 # カテゴリ追加：カテゴリ一覧のコントローラーの設定を行います。 
+
+    # カテゴリ追加：カテゴリ一覧のコントローラーの設定を行います。   
     def category_list
     @cateories = Category.all
     @posts = Post.all(:order => "category_id DESC")
     @post_categories = Post.find(:all).group_by(&:category_id)
-  　end
+    end
 
-  　def cat_list
+    # カテゴリ追加：カテゴリ詳細のコントローラー設定を行います。 
+    def cat_list
     cat = params[:cat]
-    @posts = Post.find(:all, :conditions => { :category_id => cat })
-    @cat = Category.find(cat)
-  　end
+    if cat.nil?
+         @posts = Post.find(:all, :conditions => { :category_id => nil })
+         @cat = Category.find_by_id(nil)
+      else
+         @posts = Post.find(:all, :conditions => { :category_id => cat })
+         @cat = Category.find(cat)
+       end
+    end
 
     def show
     	@post = Post.find(params[:id])
         @comment = Post.find(params[:id]).comments.build
+        @cateories = Category.all
+        @cat = Category.find_by_id(@post.category_id) 
     end
     
     def new

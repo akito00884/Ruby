@@ -1,0 +1,28 @@
+<h2>お問い合わせフォーム</h2>
+
+<%= form_for @contact, :url => contact_path do |form| %>
+
+<table border="0" cellpadding="0" cellspacing="0" class="post">
+
+<tr>
+  <th><%= form.label :name %></th>
+  <td><%= form.text_field :name %></td>
+</tr>
+
+<tr>
+  <th><%= form.label :email %></th>
+  <td><%= form.text_field :email %></td>
+</tr>
+
+<tr>
+  <th><%= form.label :content %></th>
+  <td><%= form.text_area :content %></td>
+</tr>
+
+</table>
+
+<div class="actions">
+    <%= form.submit "メール送信" %>
+</div>
+
+<% end %>

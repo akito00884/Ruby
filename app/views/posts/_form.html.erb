@@ -22,4 +22,9 @@
 	<%= f.submit %>
 </div>
 
+<tr>
+  <th><%= f.label :category_id %></th>
+  <td><%= f.collection_select :category_id, Category.all, :id, :name %></td>
+</tr>
+
 <% end %>

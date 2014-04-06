@@ -25,6 +25,12 @@ Blog::Application.routes.draw do
   #カテゴリの追加 
   match 'category_list' => 'posts#category_list'
   match 'cat_list/:cat' => 'posts#cat_list'
+  match 'cat_list' => 'posts#cat_list'
+
+  #ルーティングの設定します。    
+  match 'contact' => 'contact#new', :as => 'contact', :via => :get
+  match 'contact' => 'contact#create', :as => 'contact', :via => :post
+  match 'contact:notice' => 'contact#index'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
